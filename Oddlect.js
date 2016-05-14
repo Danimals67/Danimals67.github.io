@@ -12,9 +12,15 @@ var zSeconds;
 var test;
 var difficulty = 10;
 var isDifficult = false;
+var hasStarted = false;
 
 function clickR(){
-	if(score >= 50 && isDifficult == false){
+	if(hasStarted == false){
+		start();
+		hasStarted = true;
+	}
+	if(hasStarted == true){
+		if(score >= 50 && isDifficult == false){
 			difficulty *= 10;
 			isDifficult = true;
 		}
@@ -32,27 +38,34 @@ function clickR(){
 		else{
 			lost();
 		}	
+	}
 }
 
 function clickL(){
+	if(hasStarted == false){
+		start();
+		hasStarted = true;
+	}
+	if(hasStarted == true){
 	if(score >= 50 && isDifficult == false){
-			difficulty *= 10;
-			isDifficult = true;
+		difficulty *= 10;
+		isDifficult = true;
+	}
+	if(left == true){
+		pickRandom();
+		updateScore();
+		/*timerBar();*/
+		if(seconds > 1000){
+			updateSeconds();
 		}
-		if(left == true){
-			pickRandom();
-			updateScore();
-			/*timerBar();*/
-			if(seconds > 1000){
-				updateSeconds();
-			}
-			else if(seconds < 1000 && seconds > 0){
-				seconds = zSeconds;
-			}
+		else if(seconds < 1000 && seconds > 0){
+			seconds = zSeconds;
 		}
-		else{
-			lost();
-		}
+	}
+	else{
+		lost();
+	}
+	}
 }
 
 function newNumbers(){
@@ -129,7 +142,8 @@ function lost(){
 	alert("You Lost with a score of " + score);
 	document.getElementById("hidden").style.display = "inline";
 	document.getElementById("btnStart").disabled = true;
-	document.getElementById("numR").innerHTML = "Click Try Again";
+	document.getElementById("numR").innerHTML = "Try Again";
+	document.getElementById("numR").setAttribute("onclick", "javascript: location.reload();");
 	document.getElementById("numL").innerHTML = "";
 }
 
