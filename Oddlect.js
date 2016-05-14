@@ -15,10 +15,6 @@ var isDifficult = false;
 var hasStarted = false;
 
 function clickR(){
-	if(hasStarted == false){
-		start();
-		hasStarted = true;
-	}
 	if(hasStarted == true){
 		if(score >= 50 && isDifficult == false){
 			difficulty *= 10;
@@ -39,13 +35,13 @@ function clickR(){
 			lost();
 		}	
 	}
-}
-
-function clickL(){
 	if(hasStarted == false){
 		start();
 		hasStarted = true;
 	}
+}
+
+function clickL(){
 	if(hasStarted == true){
 	if(score >= 50 && isDifficult == false){
 		difficulty *= 10;
@@ -65,6 +61,10 @@ function clickL(){
 	else{
 		lost();
 	}
+	}
+		if(hasStarted == false){
+		start();
+		hasStarted = true;
 	}
 }
 
