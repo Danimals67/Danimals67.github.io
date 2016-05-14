@@ -83,8 +83,8 @@ function lost(){
 	alert("You Lost with a score of " + score);
 	document.getElementById("hidden").style.display = "inline";
 	document.getElementById("btnStart").disabled = true;
-	document.getElementById("numL").innerHTML = "Click Try Again";
-	document.getElementById("numR").innerHTML = "";
+	document.getElementById("numR").innerHTML = "Click Try Again";
+	document.getElementById("numL").innerHTML = "";
 }
 
 function timer(){
