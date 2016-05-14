@@ -13,6 +13,52 @@ var test;
 var difficulty = 10;
 var isDifficult = false;
 
+function clickR(){
+	if(score >= 50 && isDifficult == false){
+			difficulty *= 10;
+			isDifficult = true;
+		}
+		if(right == true){
+			pickRandom();
+			updateScore();
+			/*timerBar();*/
+			if(seconds > 1000){
+				updateSeconds();
+			}
+			else if(seconds < 1000 && seconds > 0){
+				seconds = zSeconds;
+			}
+		}
+		else{
+			lost();
+		}	
+}
+
+function clickL(){
+	if(score >= 50 && isDifficult == false){
+			difficulty *= 10;
+			isDifficult = true;
+		}
+		if(left == true){
+			pickRandom();
+			updateScore();
+			/*timerBar();*/
+			if(seconds > 1000){
+				updateSeconds();
+			}
+			else if(seconds < 1000 && seconds > 0){
+				seconds = zSeconds;
+			}
+		}
+		else{
+			lost();
+		}
+}
+
+function newNumbers(){
+	
+}
+
 document.onkeydown = function(e) {
     e = e || window.event;
 	if(e.keyCode == eleft){
@@ -62,7 +108,7 @@ function start(){
 	timer();
 	document.getElementById("timer").innerHTML = "Time: " + seconds;
 	document.getElementById("btnStart").disabled = true;
-	timerBar();
+	//timerBar();
 }
 
 function updateScore(){
