@@ -8,11 +8,14 @@ var score = 0;
 var startTime;
 var diminish = 0.95;
 var startSeconds = 4000;
-var zSeconds;
+var zSeconds = 4000;
 var test;
 var difficulty = 10;
 var isDifficult = false;
 var hasStarted = false;
+var width = 100;
+var subWidth;
+var id;
 
 function clickR(){
 	if(hasStarted == true){
@@ -23,6 +26,7 @@ function clickR(){
 		if(right == true){
 			pickRandom();
 			updateScore();
+			width = 100;
 			/*timerBar();*/
 			if(seconds > 1000){
 				updateSeconds();
@@ -33,7 +37,7 @@ function clickR(){
 		}
 		else{
 			lost();
-		}	
+		}
 	}
 	if(hasStarted == false){
 		start();
@@ -44,23 +48,24 @@ function clickR(){
 function clickL(){
 	if(hasStarted == true){
 	if(score >= 50 && isDifficult == false){
-		difficulty *= 10;
-		isDifficult = true;
-	}
-	if(left == true){
-		pickRandom();
-		updateScore();
-		/*timerBar();*/
-		if(seconds > 1000){
-			updateSeconds();
+			difficulty *= 10;
+			isDifficult = true;
 		}
-		else if(seconds < 1000 && seconds > 0){
-			seconds = zSeconds;
+		if(left == true){
+			pickRandom();
+			updateScore();
+			width = 100;
+			/*timerBar();*/
+			if(seconds > 1000){
+				updateSeconds();
+			}
+			else if(seconds < 1000 && seconds > 0){
+				seconds = zSeconds;
+			}
 		}
-	}
-	else{
-		lost();
-	}
+		else{
+			lost();			
+		}
 	}
 		if(hasStarted == false){
 		start();
@@ -82,6 +87,7 @@ document.onkeydown = function(e) {
 		if(left == true){
 			pickRandom();
 			updateScore();
+			width = 100;
 			/*timerBar();*/
 			if(seconds > 1000){
 				updateSeconds();
@@ -102,6 +108,7 @@ document.onkeydown = function(e) {
 		if(right == true){
 			pickRandom();
 			updateScore();
+			width = 100;
 			/*timerBar();*/
 			if(seconds > 1000){
 				updateSeconds();
@@ -119,9 +126,10 @@ document.onkeydown = function(e) {
 function start(){
 	pickRandom();
 	timer();
-	document.getElementById("timer").innerHTML = "Time: " + seconds;
+	document.getElementById("timer").innerHTML = "Time:" + seconds;
 	document.getElementById("btnStart").disabled = true;
-	//timerBar();
+	timerBar();
+	subWidth = 0.25;
 }
 
 function updateScore(){
@@ -133,12 +141,14 @@ function updateSeconds(){
 	seconds = startSeconds * diminish;
 	zSeconds = startSeconds * diminish;
 	//seconds = seconds.toFixed(2);
-	diminish = diminish * 0.99;
+	diminish = diminish * 0.95;
+	subWidth = test / ((test * 4) * diminish);
 	//document.getElementById("timer").innerHTML = "Time: " + seconds;
 }
 
 function lost(){
 	clearInterval(startTime);
+	clearInterval(id);
 	alert("You Lost with a score of " + score);
 	document.getElementById("hidden").style.display = "inline";
 	document.getElementById("btnStart").disabled = true;
@@ -156,9 +166,11 @@ function timeUpdate(){
 	seconds = seconds - 10;
 	test = (seconds/1000) % 60;
 	test = test.toFixed(2);
-	document.getElementById("timer").innerHTML = "Time: " + test;
+	document.getElementById("timer").innerHTML = "Time:" + test;
 	if(test <= 0){
-			document.getElementById("timer").innerHTML = "Time: 0";
+			document.getElementById("timer").innerHTML = "Time:0";
+			var pBar = document.getElementById("bar");
+			pBar.style.width = 0 + "%";
 			lost();
 		}
 	//document.getElementById("timer").innerHTML = "Time: " + tSeconds;
@@ -174,21 +186,24 @@ function timeUpdate(){
 	}*/
 }
 
-/*
+
 function timerBar(){
 	var elem = document.getElementById("bar");   
-	var width = 1;
-	var id = setInterval(frame, 10);
-	function frame() {
-		if (width >= seconds / 60) {
-		clearInterval(id);
-		alert("Something probably went wrong");
-		} else {
-			width++; 
+	id = setInterval(frame, 10);
+	function frame(){
+		if(test != 0){
+		if(width <= 0){
+			//clearInteveral(id);
+			width = 0;
+		}
+		else{
+			width -= subWidth;
 			elem.style.width = width + '%'; 
 		}
 	}
-}*/
+	}
+	
+}
 
 function updateRight(){
 	document.getElementById("numR").innerHTML = pickRandom();
@@ -213,6 +228,7 @@ function pickRandom(){
 		document.getElementById("numL").innerHTML = randomEvenNumber();
 		right = true;
 		left = false;
+		//CHEATER CODE
 		/*document.getElementById("numR").innerHTML = randomEvenNumber();
 		document.getElementById("numL").innerHTML = randomOddNumber();
 		right = false;
