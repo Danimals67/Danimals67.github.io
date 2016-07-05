@@ -108,7 +108,7 @@ p{
 	
 }
 #games-container{
-	position: relative;
+	position: absolute;
 	float: left;
 	border: 1px solid black;
 	width: 120px;
